@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package text.api;
+package sed.text;
 
-import text.api.parts.Part;
+import sed.text.parts.Part;
 import java.util.ArrayList;
 
 /**

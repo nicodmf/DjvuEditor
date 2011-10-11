@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package text.api;
+package sed.text;
 
-import text.api.parts.Line;
-import text.api.parts.Page;
-import text.api.parts.Part;
-import text.api.parts.StringWord;
-import text.api.parts.Word;
+import sed.text.Document;
+import sed.text.parts.Line;
+import sed.text.parts.Page;
+import sed.text.parts.Part;
+import sed.text.parts.StringWord;
+import sed.text.parts.Word;
 
 /**
  *

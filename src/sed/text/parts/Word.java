@@ -1,6 +1,6 @@
-package text.api.parts;
+package sed.text.parts;
 
-import text.api.Lists;
+import sed.text.Lists;
 import frame.Application;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

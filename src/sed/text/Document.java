@@ -1,8 +1,9 @@
-package text.api;
+package sed.text;
 
-import text.api.parts.Page;
-import text.api.parts.Part;
-import text.api.parts.Word;
+import sed.Djvused;
+import sed.text.parts.Page;
+import sed.text.parts.Part;
+import sed.text.parts.Word;
 import frame.MainFrame;
 import java.awt.Font;
 import java.util.ArrayList;

@@ -4,8 +4,8 @@
 package frame;
 
 import frame.bean.Viewport;
-import text.api.Djvused;
-import text.api.Document;
+import sed.Djvused;
+import sed.text.Document;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;

@@ -49,9 +49,9 @@ public class Application extends SingleFrameApplication {
         bean = new Viewport();
         mainFrame.vp = bean;
         
-        /*Dimension d = new Dimension(1000,1000);
-        bean.setSize(d);
-        bean.setPreferredSize(d);
+        //Dimension d = new Dimension(1000,1000);
+        //bean.setSize(d);
+        //bean.setPreferredSize(d);
 //        bean.setImageSize(d);
         
         show(mainFrame);

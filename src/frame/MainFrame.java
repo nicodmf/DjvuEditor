@@ -67,8 +67,8 @@ public class MainFrame extends FrameView implements FocusListener {
         this.modified = modified;
     }
     public boolean isModified() { 
-        //return true;
-        return modified;
+        return true;
+        //return modified;
     }
 
     public MainFrame(Application app) {

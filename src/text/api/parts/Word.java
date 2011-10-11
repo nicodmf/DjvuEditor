@@ -1,6 +1,6 @@
-package api.parts;
+package text.api.parts;
 
-import api.Lists;
+import text.api.Lists;
 import frame.Application;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

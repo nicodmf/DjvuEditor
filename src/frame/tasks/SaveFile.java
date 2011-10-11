@@ -4,7 +4,7 @@
  */
 package frame.tasks;
 
-import api.Djvused;
+import text.api.Djvused;
 import frame.Application;
 import java.io.BufferedWriter;
 import java.io.File;

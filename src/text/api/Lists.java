@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package api;
+package text.api;
 
-import api.parts.Part;
+import text.api.parts.Part;
 import java.util.ArrayList;
 
 /**

@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package api;
+package text.api;
 
-import api.parts.Line;
-import api.parts.Page;
-import api.parts.Part;
-import api.parts.StringWord;
-import api.parts.Word;
+import text.api.parts.Line;
+import text.api.parts.Page;
+import text.api.parts.Part;
+import text.api.parts.StringWord;
+import text.api.parts.Word;
 
 /**
  *

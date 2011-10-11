@@ -1,8 +1,8 @@
-package api;
+package text.api;
 
-import api.parts.Page;
-import api.parts.Part;
-import api.parts.Word;
+import text.api.parts.Page;
+import text.api.parts.Part;
+import text.api.parts.Word;
 import frame.MainFrame;
 import java.awt.Font;
 import java.util.ArrayList;

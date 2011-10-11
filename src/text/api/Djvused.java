@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package api;
+package text.api;
 
 //import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 //import com.sun.org.apache.xml.internal.security.utils.Base64;

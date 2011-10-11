@@ -3,6 +3,7 @@ package frame;
 import frame.bean.Viewport;
 import frame.filter.DjvuFile;
 import frame.listener.Exit;
+import frame.listener.Loading;
 import frame.tasks.SaveFile;
 import frame.tasks.LoadFile;
 import java.awt.Color;
@@ -37,9 +38,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import org.jdesktop.application.Action;
-import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.FrameView;
-import org.jdesktop.application.TaskMonitor;
 import org.jdesktop.application.Task;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -55,19 +54,23 @@ public class MainFrame extends FrameView implements FocusListener {
 
     private Application app;
     private boolean modified = false;
-    public Viewport vp=null;
-    public void setModified(boolean modified){
+    public Viewport vp = null;
+
+    public void setModified(boolean modified) {
+        boolean oldValue = this.modified;
         this.modified = modified;
+        firePropertyChange("modified", oldValue, this.modified);
     }
-    public boolean isModified() { 
-        return true;
-        //return modified;
+
+    public boolean isModified() {
+        //return true;
+        return modified;
     }
 
     public MainFrame(Application app) {
         super(app);
         this.app = app;
-        
+
         setTitle();
 
 
@@ -76,84 +79,24 @@ public class MainFrame extends FrameView implements FocusListener {
         CentralSplit.setDividerLocation(0.5);
         TextScroller.getVerticalScrollBar().setModel(ImageScroller.getVerticalScrollBar().getModel());
         TextScroller.getHorizontalScrollBar().setModel(ImageScroller.getHorizontalScrollBar().getModel());
-        
+
         frame.listener.ScrollbarAdjustment listener = new frame.listener.ScrollbarAdjustment(this);
-ImageScroller.getHorizontalScrollBar().addAdjustmentListener(listener);
-ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
+        ImageScroller.getHorizontalScrollBar().addAdjustmentListener(listener);
+        ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
 
 
-        
+
         search.setVisible(false);
-        editMenu.setVisible(false);        
+        editMenu.setVisible(false);
         cutToolBarButton.setVisible(false);
         copyToolBarButton.setVisible(false);
         pasteToolBarButton.setVisible(false);
         saveAsMenuItem.setVisible(false);
         main.setVisible(false);
         text.setVisible(false);
-        
-       // Image.setVisible(false);
 
         // status bar initialization - message timeout, idle icon and busy animation, etc
-        ResourceMap resourceMap = getResourceMap();
-                
-        int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
-        /*messageTimer = new Timer(messageTimeout, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                statusMessageLabel.setText("");
-            }
-        });
-        messageTimer.setRepeats(false);
-        int busyAnimationRate = resourceMap.getInteger("StatusBar.busyAnimationRate");
-        for (int i = 0; i < busyIcons.length; i++) {
-            busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
-        }
-        busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
-                statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
-            }
-        });
-        idleIcon = resourceMap.getIcon("StatusBar.idleIcon");
-        statusAnimationLabel.setIcon(idleIcon);
-        progressBar.setVisible(false);
-*/
-        // connect action tasks to status bar via TaskMonitor
-        TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());/*
-        taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            @Override
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                String propertyName = evt.getPropertyName();
-                if ("started".equals(propertyName)) {
-                    if (!busyIconTimer.isRunning()) {
-                        statusAnimationLabel.setIcon(busyIcons[0]);
-                        busyIconIndex = 0;
-                        busyIconTimer.start();
-                    }
-                    progressBar.setVisible(true);
-                    progressBar.setIndeterminate(true);
-                } else if ("done".equals(propertyName)) {
-                    busyIconTimer.stop();
-                    statusAnimationLabel.setIcon(idleIcon);
-                    progressBar.setVisible(false);
-                    progressBar.setValue(0);
-                } else if ("message".equals(propertyName)) {
-                    String text = (String)(evt.getNewValue());
-                    statusMessageLabel.setText((text == null) ? "" : text);
-                    messageTimer.restart();
-                } else if ("progress".equals(propertyName)) {
-                    int value = (Integer)(evt.getNewValue());
-                    progressBar.setVisible(true);
-                    progressBar.setIndeterminate(false);
-                    progressBar.setValue(value);
-                }
-            }
-        });*/
-
-        // if the document is ever edited, assume that it needs to be saved
-       // textArea.getDocument().addDocumentListener(new Document(app));
+        //loading = new Loading(this);
 
         // ask for confirmation on exit
         getApplication().addExitListener(new Exit(app));
@@ -161,12 +104,14 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
         display.addFocusListener(this);
     }
 
-    /**
-     * Set the bound file property and update the GUI.
-     */
-    public void setTitle(){ getFrame().setTitle("DejaVu editeur");}
-    public void setTitle(String filename){ getFrame().setTitle(filename + " - DejaVu editeur");}
-    
+    public void setTitle() {
+        getFrame().setTitle("DejaVu editeur");
+    }
+
+    public void setTitle(String filename) {
+        getFrame().setTitle(filename + " - DejaVu editeur");
+    }
+
     /**
      * Prompt the user for a filename and then attempt to load the file.
      * <p>
@@ -180,7 +125,9 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
      * 
      * @return a new LoadFileTask or null
      */
-    @Action @SuppressWarnings("static-access")  public Task open() {
+    @Action
+    @SuppressWarnings("static-access")
+    public Task open() {
         JFileChooser fc = createFileChooser("openFileChooser");
         int option = fc.showOpenDialog(getFrame());
         LoadFile task = null;
@@ -206,7 +153,10 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
      * 
      * @see #getFile
      */
-    @Action(enabledProperty = "modified") public Task save() { return new SaveFile(app, app.getFile(), app.getText());}
+    @Action(enabledProperty = "modified")
+    public Task save() {
+        return new SaveFile(app, app.getFile(), app.getText());
+    }
 
     /**
      * Save the contents of the textArea to the current file.
@@ -217,7 +167,8 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
      * value of the {@code file} property if the file is saved
      * successfully.
      */
-    @Action  public Task saveAs() {
+    @Action
+    public Task saveAs() {
         JFileChooser fc = createFileChooser("saveAsFileChooser");
         int option = fc.showSaveDialog(getFrame());
         Task task = null;
@@ -226,20 +177,19 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
         }
         return task;
     }
+
+    @Action public void first() { app.first();}
+    @Action public void prev() { app.prev();}
+    @Action public void next() { app.next();}
+    @Action public void last() { app.last();}
+    @Action public void setPage() { app.setPage(page.getSelectedIndex() + 1);}
     
-
-    @Action  public void first(){ app.first();}
-    @Action  public void prev(){ app.prev();}
-    @Action  public void next(){ app.next();}
-    @Action  public void last(){ app.last();}
-    @Action  public void setPage(){ app.setPage(page.getSelectedIndex()+1);}
-
-    @Action  public void zoomIn(){ app.zoomIn();}
-    @Action  public void zoomOut(){ app.zoomOut();}
-    @Action  public void fitWidth(){ app.fitWidth();}
-    @Action  public void fitPage(){ app.fitPage();}
-    @Action  public void fitAll(){ app.fitAll();}
-    @Action  public void setZoom(){ app.setZoomInc(zoom.getSelectedIndex());}
+    @Action public void zoomIn() { app.zoomIn();}
+    @Action public void zoomOut() { app.zoomOut();}
+    @Action public void fitWidth() { app.fitWidth();}
+    @Action public void fitPage() { app.fitPage();}
+    @Action public void fitAll() { app.fitAll();}
+    @Action public void setZoom() { app.setZoomInc(zoom.getSelectedIndex());}
 
     private JFileChooser createFileChooser(String name) {
         JFileChooser fc = new JFileChooser();
@@ -248,21 +198,24 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
         fc.setFileFilter(new DjvuFile(textFilesDesc));
         return fc;
     }
+
     @Override
     public void focusGained(FocusEvent e) {
-        Rectangle rect=e.getComponent().getBounds();
-        if(e.getComponent().getParent()==Texts){
+        Rectangle rect = e.getComponent().getBounds();
+        if (e.getComponent().getParent() == Texts) {
             Texts.scrollRectToVisible(rect);
         }
-        int a =2;
+        int a = 2;
         a++;
     }
+
     @Override
-    public void focusLost(FocusEvent e) { 
-        int a=1;
+    public void focusLost(FocusEvent e) {
+        int a = 1;
         a++;
     }
-    javax.swing.Action getAction(String name){
+
+    javax.swing.Action getAction(String name) {
         ActionMap actionMap = org.jdesktop.application.Application.getInstance(Application.class).getContext().getActionMap(MainFrame.class, this);
         return actionMap.get(name);
     }
@@ -721,7 +674,6 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
         setStatusBar(statusPanel);
         setToolBar(toolbars);
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public JSplitPane CentralSplit;
     public JPanel Image;
@@ -746,7 +698,7 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
     private JButton pagePremier;
     private JButton pageSuivant;
     private JButton pasteToolBarButton;
-    private JProgressBar progressBar;
+    public JProgressBar progressBar;
     private JButton rechDernier;
     private JButton rechPrecedent;
     private JButton rechPremier;
@@ -755,8 +707,8 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
     private JMenuItem saveAsMenuItem;
     private JButton saveToolBarButton;
     private JToolBar search;
-    private JLabel statusAnimationLabel;
-    private JLabel statusMessageLabel;
+    public JLabel statusAnimationLabel;
+    public JLabel statusMessageLabel;
     private JPanel statusPanel;
     private JButton text;
     private JToolBar toolbars;
@@ -767,16 +719,7 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
     private JButton zoomMoins;
     private JButton zoomPlus;
     // End of variables declaration//GEN-END:variables
-
-/*    private final Timer messageTimer;
-    private final Timer busyIconTimer;
-    private final Icon idleIcon;
-    private final Icon[] busyIcons = new Icon[15];
-    private int busyIconIndex = 0;
-     * 
-     */
-
     private JDialog aboutBox;
-
+    private Loading loading;
     private static final Logger logger = Logger.getLogger(MainFrame.class.getName());
 }

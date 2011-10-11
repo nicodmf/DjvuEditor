@@ -28,7 +28,6 @@ public class Application extends SingleFrameApplication {
     Viewport bean;
     private MainFrame mainFrame;
     private Document document;
-    private boolean modified = false;
     private Djvused sed;
     private Document doc;
     private Dimension dims = null;
@@ -133,6 +132,7 @@ public class Application extends SingleFrameApplication {
         bean.setPage(page);
 
         //bean.
+        mainFrame.CentralSplit.setDividerLocation(0.5);
         setPage(page);
         fitPage();
         mainFrame.setTitle(file.getName());
@@ -165,15 +165,15 @@ public class Application extends SingleFrameApplication {
         //bean.setImageSize(d);
         bean.setViewportSize(dims);
         bean.setVisible(true);
+        bean.revalidate();
+        bean.repaint();
 
 
         mainFrame.page.setSelectedIndex(realPage);
 
         doc.showPage(page, mainFrame, zoom, pageDimensions);
 
-        mainFrame.CentralSplit.setDividerLocation(0.5);//getWidth();
-        //fitWidth();
-
+        mainFrame.CentralSplit.setDividerLocation(0.5);
 
 
         mainFrame.getFrame().repaint();
@@ -182,15 +182,11 @@ public class Application extends SingleFrameApplication {
     }
 
     public void setModified(boolean modified) {
-        if (this.modified != modified) {
-            mainFrame.setModified(modified);
-            firePropertyChange("modified", modified, this.modified);
-            this.modified = modified;
-        }
+        mainFrame.setModified(modified);
     }
 
     public boolean isModified() {
-        return modified;
+        return mainFrame.isModified();
     }
 
     public Document getDocument() {

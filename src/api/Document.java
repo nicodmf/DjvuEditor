@@ -8,7 +8,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Formatter;
 import javax.swing.JTextField;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
+//import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
 /*
  * To change this template, choose Tools | Templates
@@ -41,7 +41,8 @@ public class Document extends Part {
                 textField.setBorder(null);
                 textField.setFont(new Font("Times New Roman", 0, word.pos.getHeight() / 7 * 6));
                 textField.addFocusListener(frame);
-                frame.Texts.add(textField, new AbsoluteConstraints(word.pos.getX1(), word.pos.getY1(), word.pos.getWidth(), word.pos.getHeight()));
+                frame.Texts.add(textField);
+                textField.setBounds(word.pos.getX1(), word.pos.getY1(), word.pos.getWidth(), word.pos.getHeight());
             }
             //JTextField
         }

@@ -1,7 +1,6 @@
 package frame;
 
 import frame.bean.Viewport;
-import com.lizardtech.djvubean.DjVuViewport;
 import frame.filter.DjvuFile;
 import frame.listener.Exit;
 import frame.tasks.SaveFile;
@@ -10,10 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Rectangle;
-import java.awt.ScrollPane;
-import java.awt.Scrollbar;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
@@ -21,7 +17,6 @@ import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -37,7 +32,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
-import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -50,7 +44,6 @@ import org.jdesktop.application.Task;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  * This application is a simple text editor. This class displays the main frame
@@ -276,7 +269,6 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        GridBagConstraints gridBagConstraints;
 
         mainPanel = new JPanel();
         CentralSplit = new JSplitPane();
@@ -374,7 +366,18 @@ ImageScroller.getVerticalScrollBar().addAdjustmentListener(listener);
         Texts.setBackground(new Color(255, 255, 255));
         Texts.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         Texts.setPreferredSize(new Dimension(300, 300));
-        Texts.setLayout(new AbsoluteLayout());
+
+        GroupLayout TextsLayout = new GroupLayout(Texts);
+        Texts.setLayout(TextsLayout);
+        TextsLayout.setHorizontalGroup(
+            TextsLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 298, Short.MAX_VALUE)
+        );
+        TextsLayout.setVerticalGroup(
+            TextsLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 298, Short.MAX_VALUE)
+        );
+
         TextFlow.add(Texts, new GridBagConstraints());
 
         TextScroller.setViewportView(TextFlow);

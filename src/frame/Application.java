@@ -6,11 +6,7 @@ package frame;
 import frame.bean.Viewport;
 import api.Djvused;
 import api.Document;
-import com.lizardtech.djvu.Codec;
-import com.lizardtech.djvu.text.DjVuText;
-import com.lizardtech.djvu.text.DjVuText.Zone;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -35,7 +31,7 @@ public class Application extends SingleFrameApplication {
     private boolean modified = false;
     private Djvused sed;
     private Document doc;
-    private Dimension dims=null;
+    private Dimension dims = null;
     private int[] pageDimensions;
 
     /**
@@ -48,25 +44,21 @@ public class Application extends SingleFrameApplication {
         doc = new Document();
         bean = new Viewport();
         mainFrame.vp = bean;
-        
-        //Dimension d = new Dimension(1000,1000);
-        //bean.setSize(d);
-        //bean.setPreferredSize(d);
-//        bean.setImageSize(d);
-        
+
         show(mainFrame);
         //TODO: drop after test
         mainFrame.Image.add(bean);
-        
+
         //images = new TiffReader();
-       setFile(new File("D:\\dev\\java\\DjVuSedToJava\\coriolis2.djvu"));
+        setFile(new File("D:\\dev\\java\\DjVuSedToJava\\coriolis2.djvu"));
 //        mainFrame.Image.add(images.getPanel(page, page, page));*/
     }
 
     public MainFrame getFrame() {
         return mainFrame;
     }
-    public String getText(){
+
+    public String getText() {
         return doc.save();
     }
 
@@ -124,33 +116,23 @@ public class Application extends SingleFrameApplication {
         }
         mainFrame.page.setModel(new DefaultComboBoxModel(itemsPage));
         mainFrame.zoom.setModel(new DefaultComboBoxModel(itemsZoom));
-        
-/*        try {
-            images.setFile(sed.getImages().getAbsolutePath());
-        } catch (IOException ex) {
-            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*images = new Tiff();
-        try {
-            images.readInputStream(new FileInputStream(sed.getImages().getAbsolutePath()));
-        } catch (IOException ex) {
-            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+
+
         page = 1;
         String str;
 
-            try {
-                bean.setURL(file.toURL());
-            } catch (IOException ex) {
-                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            bean.setScrollbar(JScrollBar.HORIZONTAL, mainFrame.ImageScroller.getHorizontalScrollBar());
-            bean.setScrollbar(JScrollBar.VERTICAL, mainFrame.ImageScroller.getVerticalScrollBar());
-            
+        try {
+            bean.setURL(file.toURL());
+        } catch (IOException ex) {
+            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        bean.setScrollbar(JScrollBar.HORIZONTAL, mainFrame.ImageScroller.getHorizontalScrollBar());
+        bean.setScrollbar(JScrollBar.VERTICAL, mainFrame.ImageScroller.getVerticalScrollBar());
+
 
         bean.setPage(page);
-        
-       //bean.
+
+        //bean.
         setPage(page);
         fitPage();
         mainFrame.setTitle(file.getName());
@@ -171,10 +153,10 @@ public class Application extends SingleFrameApplication {
         mainFrame.Image.setPreferredSize(dims);
 //        mainFrame.Image.setVisible(false);
         bean.setPage(page);
-        
-        String z=String.valueOf((int)(zoom*100*bean.getDPI()/actualDpi)+"%");
+
+        String z = String.valueOf((int) (zoom * 100 * bean.getDPI() / actualDpi) + "%");
         bean.setZoom(z);
-        Dimension d = new Dimension(pageDimensions[0],pageDimensions[1]);
+        Dimension d = new Dimension(pageDimensions[0], pageDimensions[1]);
         //mainFrame.ImagePanel.setPreferredSize(dims);
         //mainFrame.ImagePanel.setPreferredSize(dims);
         bean.setSize(dims);
@@ -183,45 +165,19 @@ public class Application extends SingleFrameApplication {
         //bean.setImageSize(d);
         bean.setViewportSize(dims);
         bean.setVisible(true);
-        
-                DjVuText textcodec = (DjVuText) bean.getTextCodec(30L);
-//                Zone zone = textcodec.page_zone;
-                //zone.
-                
 
-        
-        //Dimension size = bean.getViewportSize();
-        //System.out.print(size.toString());
 
-        /*
-
-        String filename = sed.getImage(realPage);
-        Tiff tiff = new Tiff();
-        try {
-            tiff.readInputStream(new FileInputStream(filename));
-        } catch (IOException ex) {
-            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        //ImageIcon icon = new ImageIcon(tiff.getImage(0));
-        /*ImageIcon icon = new ImageIcon(images.getBuffered(realPage));
-        //ImageIcon icon = new ImageIcon(images.getImage(page));
-        if(zoom!=1)icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING));
-        mainFrame.Image.setIcon(icon);*/
-//        images.setPage(realPage, width, height, zoom);
-        //bean.getImage().draw(mainFrame.ImagePanel, mainFrame.ImagePanel.getGraphics(), mainFrame.ImagePanel);
         mainFrame.page.setSelectedIndex(realPage);
 
         doc.showPage(page, mainFrame, zoom, pageDimensions);
-        //Image img = bean.createImage(width, height);
-        //img.toString();
-       // mainFrame.Image.setIcon(new ImageIcon(img));
+
         mainFrame.CentralSplit.setDividerLocation(0.5);//getWidth();
         //fitWidth();
 
-        
-        
+
+
         mainFrame.getFrame().repaint();
-        mainFrame.getFrame().revalidate();//(mainFrame.Texts.getGraphics());
+        mainFrame.getFrame().revalidate();
 
     }
 
@@ -262,10 +218,10 @@ public class Application extends SingleFrameApplication {
     }
 
     public void zoomIn() {
-        if (zoomInc < zooms.length-1) {
+        if (zoomInc < zooms.length - 1) {
             zoomInc += 1;
             zoom = zooms[zoomInc];
-            setZoom();    
+            setZoom();
         }
     }
 
@@ -273,14 +229,14 @@ public class Application extends SingleFrameApplication {
         if (zoomInc > 0) {
             zoomInc -= 1;
             zoom = zooms[zoomInc];
-            setZoom();    
+            setZoom();
         }
     }
 
     public void fitPage() {
-        double width = mainFrame.CentralSplit.getWidth()/2-15;
-        double height = mainFrame.CentralSplit.getHeight()-15;
-        setZoom(Math.min(width/pageDimensions[0], height/pageDimensions[1]));        
+        double width = mainFrame.CentralSplit.getWidth() / 2 - 15;
+        double height = mainFrame.CentralSplit.getHeight() - 15;
+        setZoom(Math.min(width / pageDimensions[0], height / pageDimensions[1]));
     }
 
     public void fitAll() {
@@ -288,20 +244,21 @@ public class Application extends SingleFrameApplication {
     }
 
     public void fitWidth() {
-        double width = mainFrame.CentralSplit.getWidth()/2-30;
-        setZoom(width/pageDimensions[0]);
+        double width = mainFrame.CentralSplit.getWidth() / 2 - 30;
+        setZoom(width / pageDimensions[0]);
     }
 
     public void setZoomInc(int zoomInc) {
         this.zoomInc = zoomInc;
-        zoom = zooms[zoomInc];      
-        setZoom();    
+        zoom = zooms[zoomInc];
+        setZoom();
     }
+
     public void setZoom(double zoom) {
         //if(zoom==this.zoom)return;
-        boolean pass=false;
-        for(int i=0; i<zooms.length; i++){
-            if(zooms[i]<=zoom && zoom<zooms[i+1]){
+        boolean pass = false;
+        for (int i = 0; i < zooms.length; i++) {
+            if (zooms[i] <= zoom && zoom < zooms[i + 1]) {
                 //if(this.zoom == zooms[i]) return;
                 this.zoom = zoom;
                 zoomInc = i;
@@ -309,16 +266,17 @@ public class Application extends SingleFrameApplication {
                 break;
             }
         }
-        if(pass==false){
-            if(zoom>zooms[0]){
-                zoomInc = zooms.length-1;
-            }else{
-                zoomInc=0;
+        if (pass == false) {
+            if (zoom > zooms[0]) {
+                zoomInc = zooms.length - 1;
+            } else {
+                zoomInc = 0;
             }
             this.zoom = zoom;
         }
         setZoom();
     }
+
     public void setZoom() {
         mainFrame.zoom.setAction(mainFrame.getAction(""));
         mainFrame.zoom.setSelectedIndex(zoomInc);

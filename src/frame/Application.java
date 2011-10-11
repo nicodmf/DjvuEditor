@@ -133,7 +133,8 @@ public class Application extends SingleFrameApplication {
 
         //bean.
         mainFrame.CentralSplit.setDividerLocation(0.5);
-        setPage(page);
+        //setPage(page);
+        pageDimensions = sed.getDimensions()[page-1];
         fitPage();
         mainFrame.setTitle(file.getName());
 
@@ -143,8 +144,8 @@ public class Application extends SingleFrameApplication {
     public void setPage(int page) {
         this.page = page;
         int realPage = page - 1;
-        pageDimensions = sed.getDimensions()[realPage];
 
+        pageDimensions = sed.getDimensions()[page-1];
         int width = (int) (pageDimensions[0] * zoom);
         int height = (int) (pageDimensions[1] * zoom);
         dims = new Dimension(width, height);
@@ -168,8 +169,9 @@ public class Application extends SingleFrameApplication {
         bean.revalidate();
         bean.repaint();
 
-
+        mainFrame.page.setAction(mainFrame.getAction(""));
         mainFrame.page.setSelectedIndex(realPage);
+        mainFrame.page.setAction(mainFrame.getAction("setZoom"));
 
         doc.showPage(page, mainFrame, zoom, pageDimensions);
 

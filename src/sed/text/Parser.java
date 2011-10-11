@@ -26,6 +26,8 @@ public class Parser {
     }
 
     static public void parse(Document document, String string) {
+        document.reinit();
+        Lists.reinit();
         subParse(document, string.replaceAll("\\\\\"", "__xx__"));
         
     }

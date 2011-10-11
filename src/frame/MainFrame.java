@@ -73,7 +73,6 @@ public class MainFrame extends FrameView implements FocusListener {
 
         setTitle();
 
-
         // generated GUI builder code
         initComponents();
         CentralSplit.setDividerLocation(0.5);
@@ -292,6 +291,7 @@ public class MainFrame extends FrameView implements FocusListener {
 
         Image.setBackground(new Color(255, 255, 255));
         Image.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        Image.setDoubleBuffered(false);
         Image.setPreferredSize(new Dimension(300, 300));
 
         GroupLayout ImageLayout = new GroupLayout(Image);

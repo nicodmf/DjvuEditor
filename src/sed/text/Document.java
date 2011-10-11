@@ -81,4 +81,8 @@ public class Document extends Part {
         pages.add(page);
         parts = pages;
     }
+
+    void reinit() {
+        pages = new ArrayList<Part>();
+    }
 }

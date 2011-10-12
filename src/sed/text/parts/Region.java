@@ -10,25 +10,25 @@ import java.util.ArrayList;
  *
  * @author Administrateur
  */
-public class Line extends Part {
+public class Region extends Part {
 
-    public ArrayList<Part> words  = new ArrayList<Part>();
+    public ArrayList<Part> paras  = new ArrayList<Part>();
 
-    public Line(Part parent) {
+    public Region(Part parent) {
         super(parent);
     }
 
-    public Line() {}
+    public Region() {}
 
     @Override
-    public void addPart(Part word) {
-        words.add(word);
-        parts = words;
+    public void addPart(Part para) {
+        paras.add(para);
+        parts = paras;
     }
 
     @Override
     public String start() {
-        return "(line ";
+        return "(region ";
     }
 
     @Override

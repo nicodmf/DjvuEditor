@@ -32,6 +32,7 @@ public class Application extends SingleFrameApplication {
     private Document doc;
     private Dimension dims = null;
     private int[] pageDimensions;
+    public boolean direction = true;
 
     /**
      * At startup create and show the main frame of the application.
@@ -171,7 +172,7 @@ public class Application extends SingleFrameApplication {
 
         mainFrame.page.setAction(mainFrame.getAction(""));
         mainFrame.page.setSelectedIndex(realPage);
-        mainFrame.page.setAction(mainFrame.getAction("setZoom"));
+        mainFrame.page.setAction(mainFrame.getAction("setPage"));
 
         doc.showPage(page, mainFrame, zoom, pageDimensions);
 

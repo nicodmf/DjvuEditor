@@ -10,15 +10,15 @@ import java.util.ArrayList;
  *
  * @author Administrateur
  */
-public class Page extends Part {
+public class Para extends Part {
 
-    public ArrayList<Part> lines = new ArrayList<Part>();
+    public ArrayList<Part> lines  = new ArrayList<Part>();
 
-    public Page(Part parent) {
+    public Para(Part parent) {
         super(parent);
     }
 
-    public Page() {}
+    public Para() {}
 
     @Override
     public void addPart(Part line) {
@@ -28,7 +28,7 @@ public class Page extends Part {
 
     @Override
     public String start() {
-        return "(page ";
+        return "(para ";
     }
 
     @Override
@@ -37,7 +37,14 @@ public class Page extends Part {
     }
     @Override
     public String save(String res){
-        return ""+start() + pos.get() +""+ res + end();
+        return "\n "+start() + pos.get() +""+ res + end();
         
-    }  
+    }
+    public Part getPage(){
+        Part page = parent;
+        if(! ( page instanceof Page))
+            page = parent.getPage();
+        return page;
+    }
+
 }

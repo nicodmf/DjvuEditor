@@ -11,6 +11,12 @@ package sed.text.parts;
 public class StringWord extends Part {
 
     String word;
+
+    public StringWord(Part parent) {
+        super(parent);
+    }
+
+    public StringWord() {}
     
     @Override
     public String start() {

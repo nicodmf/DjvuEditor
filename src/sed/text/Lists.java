@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class Lists {
 
     public static ArrayList<Part> pages = new ArrayList<Part>();
+    public static ArrayList<Part> regions = new ArrayList<Part>();
+    public static ArrayList<Part> paras = new ArrayList<Part>();
     public static ArrayList<Part> lines = new ArrayList<Part>();
     public static ArrayList<Part> words = new ArrayList<Part>();
 

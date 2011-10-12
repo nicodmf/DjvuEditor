@@ -52,7 +52,7 @@ import javax.swing.JFileChooser;
  */
 public class MainFrame extends FrameView implements FocusListener {
 
-    private Application app;
+    public Application app;
     private boolean modified = false;
     public Viewport vp = null;
 

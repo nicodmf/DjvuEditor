@@ -2025,8 +2025,8 @@ set-txt
   (word 618 2176 750 2226 "&ubles")
   (word 763 2176 817 2226 "des")
   (word 825 2176 935 2226 "forces")
-  (word 958 2176 1155 2226 "centrifitges")
-  (word 1173 2176 1362 2226 "composdes."))
+  (word 958 2176 1155 2226 "centrifuges")
+  (word 1173 2176 1362 2226 "composées."))
  (line 358 2116 1547 2163
   (word 358 2116 411 2163 "On")
   (word 429 2116 495 2163 "voit")

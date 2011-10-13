@@ -50,7 +50,7 @@ public class Application extends SingleFrameApplication {
         mainFrame.Image.add(bean);
 
         //images = new TiffReader();
-        setFile(new File("D:\\dev\\java\\DjVuSedToJava\\coriolis2.djvu"));
+        //setFile(new File("D:\\dev\\java\\DjVuSedToJava\\coriolis2.djvu"));
 //        mainFrame.Image.add(images.getPanel(page, page, page));*/
     }
 

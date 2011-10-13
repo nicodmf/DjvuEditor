@@ -5,6 +5,7 @@
 package sed.text;
 
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import sed.text.Document;
 import sed.text.parts.Line;
@@ -103,8 +104,9 @@ public class Parser {
         hm.put(txt.indexOf(pstringword.start()), new StringWord(parent));
         hm.put(txt.indexOf(parent.end()), parent);
         try {
-            Object key = hm.tailMap(0).firstKey();
-            child =(Part) hm.tailMap(0).get(key);
+            SortedMap tm = hm.tailMap(0);
+            Object key = tm.firstKey();
+            child =(Part) tm.get(key);
         } catch (Exception e) {
             return null;
         }
@@ -115,10 +117,10 @@ public class Parser {
     static void addList(Part part) {
         if (part instanceof Page) {
             Lists.pages.add(part);
-        }else  if (part instanceof Region) {
+       /* }else  if (part instanceof Region) {
             Lists.regions.add(part);
         }else if (part instanceof Para) {
-            Lists.paras.add(part);
+            Lists.paras.add(part);*/
         }else if (part instanceof Line) {
             Lists.lines.add(part);
         }else if (part instanceof Word) {

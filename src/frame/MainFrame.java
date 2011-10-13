@@ -4,6 +4,7 @@ import frame.bean.Viewport;
 import frame.filter.DjvuFile;
 import frame.listener.Exit;
 import frame.listener.Loading;
+import frame.listener.TextsMouse;
 import frame.tasks.SaveFile;
 import frame.tasks.LoadFile;
 import java.awt.Color;
@@ -24,6 +25,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,6 +35,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -55,6 +59,7 @@ public class MainFrame extends FrameView implements FocusListener {
     public Application app;
     private boolean modified = false;
     public Viewport vp = null;
+    private TextsMouse tml;
 
     public void setModified(boolean modified) {
         boolean oldValue = this.modified;
@@ -101,6 +106,10 @@ public class MainFrame extends FrameView implements FocusListener {
         getApplication().addExitListener(new Exit(app));
         display.setRequestFocusEnabled(false);
         display.addFocusListener(this);
+        
+        tml = new TextsMouse(Texts);
+        Texts.addMouseListener(tml);
+        Texts.addMouseMotionListener(tml);
     }
 
     public void setTitle() {
@@ -230,6 +239,7 @@ public class MainFrame extends FrameView implements FocusListener {
         TextScroller = new JScrollPane();
         TextFlow = new JPanel();
         Texts = new JPanel();
+        jTextField1 = new JTextField();
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu();
         JMenuItem openMenuItem = new JMenuItem();
@@ -320,15 +330,28 @@ public class MainFrame extends FrameView implements FocusListener {
         Texts.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         Texts.setPreferredSize(new Dimension(300, 300));
 
+        jTextField1.setBackground(new Color(255, 204, 102));
+        ResourceBundle bundle = ResourceBundle.getBundle("frame/MainFrame"); // NOI18N
+        jTextField1.setText(bundle.getString("MainFrame.jTextField1.text")); // NOI18N
+        jTextField1.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        jTextField1.setEnabled(false);
+        jTextField1.setOpaque(false);
+
         GroupLayout TextsLayout = new GroupLayout(Texts);
         Texts.setLayout(TextsLayout);
         TextsLayout.setHorizontalGroup(
             TextsLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 298, Short.MAX_VALUE)
+            .addGroup(TextsLayout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jTextField1, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         TextsLayout.setVerticalGroup(
             TextsLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 298, Short.MAX_VALUE)
+            .addGroup(TextsLayout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(jTextField1, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         TextFlow.add(Texts, new GridBagConstraints());
@@ -348,7 +371,6 @@ public class MainFrame extends FrameView implements FocusListener {
             .addComponent(CentralSplit, GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
         );
 
-        ResourceBundle bundle = ResourceBundle.getBundle("frame/MainFrame"); // NOI18N
         fileMenu.setText(bundle.getString("MainFrame.fileMenu.text")); // NOI18N
 
         ActionMap actionMap = org.jdesktop.application.Application.getInstance(Application.class).getContext().getActionMap(MainFrame.class, this);
@@ -687,6 +709,7 @@ public class MainFrame extends FrameView implements FocusListener {
     private JToolBar display;
     private JToolBar edit;
     private JMenu editMenu;
+    private JTextField jTextField1;
     private JButton main;
     private JPanel mainPanel;
     private JMenuBar menuBar;

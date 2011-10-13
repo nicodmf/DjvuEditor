@@ -64,11 +64,19 @@ public class Document extends Part {
 
     public void setCaret(MainFrame frame) {
         if (frame.app.direction) {
-            JTextField jt = (JTextField)frame.Texts.getComponent(0);
+            JTextField jt = null;
+            int index=0;
+            while(!(frame.Texts.getComponent(index) instanceof JTextField))
+                index++;
+            jt=(JTextField)frame.Texts.getComponent(index);
             jt.requestFocus();
             jt.setCaretPosition(0);
         } else {
-            JTextField jt = (JTextField)frame.Texts.getComponent(frame.Texts.getComponentCount()-1);
+            JTextField jt = null;
+            int index=frame.Texts.getComponentCount()-1;
+            while(!(frame.Texts.getComponent(index) instanceof JTextField))
+                index--;
+            jt=(JTextField)frame.Texts.getComponent(index);
             jt.requestFocus();
             jt.setCaretPosition(jt.getText().length()-1);
         }

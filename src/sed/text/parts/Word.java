@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.JTextField;
+import sed.text.parts.listener.WordTextField;
 
 /*
  * To change this template, choose Tools | Templates
@@ -50,61 +51,7 @@ public class Word extends Part {
 
     public JTextField getTextField() {
         textField = new JTextField(getWord());
-        textField.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                jtSetWord(e);
-                setPosition(e);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                setPosition(e);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                jtSetWord(e);
-            }
-
-            public void jtSetWord(KeyEvent e) {
-                setWord(textField.getText());
-                Application.getApplication().setModified(true);
-
-            }
-
-            public void setPosition(KeyEvent e) {
-                int cpos = textField.getCaretPosition();
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT && cpos == textField.getText().length()) {
-                    try {
-                        int index = Lists.words.indexOf(getInstance()) + 1;
-                        ArrayList<Part> words = Lists.words;
-                        while (((Word) Lists.words.get(index)).textField == null) {
-                            index++;
-                        }
-                        ((Word) Lists.words.get(index)).textField.requestFocus();
-                        ((Word) Lists.words.get(index)).textField.setCaretPosition(0);
-                    } catch (Exception ex) {
-                        Application.getApplication().next();
-                    }
-
-                } else if (e.getKeyCode() == KeyEvent.VK_LEFT && cpos == 0) {
-                    try {
-                        int index = Lists.words.indexOf(getInstance()) - 1;
-                        while (((Word) Lists.words.get(index)).textField == null) {
-                            index--;
-                        }
-                        int ncpos = ((Word) Lists.words.get(index)).textField.getText().length();
-                        ((Word) Lists.words.get(index)).textField.requestFocus();
-                        ((Word) Lists.words.get(index)).textField.setCaretPosition(ncpos);
-                    } catch (Exception ex) {
-                        Application.getApplication().prev();
-                    }
-                }
-
-            }
-        });
+        textField.addKeyListener(new WordTextField(this));
         return textField;
     }
 

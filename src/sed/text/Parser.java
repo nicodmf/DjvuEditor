@@ -4,6 +4,7 @@
  */
 package sed.text;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -25,13 +26,15 @@ public class Parser {
     Document document;
     String string;
     static boolean region = false, para = false;
-    static Document pdocument = new Document();
-    static Page ppage = new Page();
-    static Region pregion = new Region();
-    static Para ppara = new Para();
-    static Line pline = new Line();
-    static Word pword = new Word();
-    static StringWord pstringword = new StringWord();
+    static String pdocument = new Document().end();
+    static String ppage = new Page().start();
+    static String pregion = new Region().start();
+    static String ppara = new Para().start();
+    static String pline = new Line().start();
+    static String pword = new Word().start();
+    static String pstringword = new StringWord().start();
+    static int l, pp, pr, pa, pl, pw, ps, ep, min;
+    static int nums[] = new int[7];
 
     public Parser(Document document, String string) {
         this.document = document;
@@ -93,15 +96,53 @@ public class Parser {
         return str;
     }
 
+    static Part getChild1(String txt, Part parent) {
+        Part child = null;
+        //TreeMap hm = new TreeMap<Number, Part>();
+        //int l, pp, pr, pa, pl, pw, ps, ep,
+        min=txt.length();
+        //int[] nums = new int[7];  
+        //l = txt.length();
+        nums[0] = pp = txt.indexOf(ppage);
+        if(region)nums[1] = pr = txt.indexOf(pregion);else nums[1]=-1;
+        if(para)nums[2] = pa = txt.indexOf(ppara);else nums[2]=-1;
+        nums[3] = pl = txt.indexOf(pline);
+        nums[4] = pw = txt.indexOf(pword);
+        nums[5] = ps = txt.indexOf(pstringword);
+        nums[6] = ep = txt.indexOf(parent.end());
+        for(int i=0; i<7; i++){
+            if(nums[i]>=0)
+                min=Math.min(nums[i],min);
+        }
+        
+        if(min==ep)
+            return parent;     
+        else if(min == pw)
+            child = new Word(parent);
+        else if(min== ps)
+            child = new StringWord(parent);
+        else if(min== pl)
+            child = new Line(parent);
+        else if(min== pp)
+            child = new Page(parent);
+        else if(para && min== pa)
+            child = new Para(parent);
+        else if(para && min== pr)
+            child = new Region(parent);
+        
+        if(child!=null)addList(child);
+        
+        return child;
+    }
     static Part getChild(String txt, Part parent) {
         Part child;
         TreeMap hm = new TreeMap<Number, Part>();
-        hm.put(txt.indexOf(ppage.start()), new Page(parent));
-        hm.put(txt.indexOf(pregion.start()), new Region(parent));
-        hm.put(txt.indexOf(ppara.start()), new Para(parent));
-        hm.put(txt.indexOf(pline.start()), new Line(parent));
-        hm.put(txt.indexOf(pword.start()), new Word(parent));
-        hm.put(txt.indexOf(pstringword.start()), new StringWord(parent));
+        hm.put(txt.indexOf(ppage), new Page(parent));
+        if(region)hm.put(txt.indexOf(pregion), new Region(parent));
+        if(para)hm.put(txt.indexOf(ppara), new Para(parent));
+        hm.put(txt.indexOf(pline), new Line(parent));
+        hm.put(txt.indexOf(pword), new Word(parent));
+        hm.put(txt.indexOf(pstringword), new StringWord(parent));
         hm.put(txt.indexOf(parent.end()), parent);
         try {
             SortedMap tm = hm.tailMap(0);
